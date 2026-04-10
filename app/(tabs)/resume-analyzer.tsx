@@ -185,7 +185,11 @@ export default function ResumeAnalyzerScreen() {
             </TouchableOpacity>
 
             {showDomainPicker && (
-              <View style={styles.dropdownList}>
+              <ScrollView 
+                style={styles.dropdownList}
+                nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={true}
+              >
                 {DOMAINS.map((d) => (
                   <TouchableOpacity
                     key={d}
@@ -197,7 +201,7 @@ export default function ResumeAnalyzerScreen() {
                     </Text>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </ScrollView>
             )}
           </Card>
 
@@ -570,6 +574,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.md,
     marginTop: spacing.xs,
     maxHeight: 200,
+    ...shadows.sm,
   },
   dropdownItem: {
     paddingHorizontal: spacing.base,
