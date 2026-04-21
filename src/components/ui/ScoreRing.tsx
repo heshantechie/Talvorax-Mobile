@@ -55,7 +55,8 @@ export function ScoreRing({
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           rotation="-90"
-          origin={`${size / 2}, ${size / 2}`}
+          originX={size / 2}
+          originY={size / 2}
         />
       </Svg>
       <View style={styles.textContainer}>
