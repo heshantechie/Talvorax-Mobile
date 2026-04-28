@@ -96,6 +96,7 @@ export default function LoginScreen() {
               onChangeText={setPassword}
               secureTextEntry={!showPassword}
               autoComplete="password"
+              autoCapitalize="none"
               error={errors.password}
               leftIcon={<Ionicons name="lock-closed-outline" size={20} color={colors.slate[400]} />}
               rightIcon={

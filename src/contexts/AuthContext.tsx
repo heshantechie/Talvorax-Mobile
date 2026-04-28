@@ -34,14 +34,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.warn('Supabase auth getSession error:', error.message);
-          // Add logic to clear invalid/broken sessions (force signOut if refresh token fails)
+          // If we get a refresh token error, it's expected if the session expired
+          // while the app was closed. We should safely sign out without throwing.
           if (
             error.message.includes('Refresh Token Not Found') || 
             error.message.includes('Invalid Refresh Token')
           ) {
             console.log('Clearing invalid session due to token error...');
-            await supabase.auth.signOut();
+            // Attempt to sign out to clear local storage, ignore network errors
+            await supabase.auth.signOut().catch(() => {});
+          } else {
+            console.warn('Supabase auth getSession error:', error.message);
           }
         }
         
@@ -54,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           });
         }
       } catch (error: any) {
-        console.warn('Supabase getSession catch error:', error);
+        console.log('Session initialization fallback:', error.message);
         // Fallback cleanup if something completely breaks
         await supabase.auth.signOut().catch(() => {});
         if (mounted) {
